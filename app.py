@@ -61,11 +61,11 @@ neuroticism_qs = [
 # Personality Traits
 st.header("Personality Traits")
 
-O_score = np.mean(create_questions(openness_qs))
-C_score = np.mean(create_questions(conscientiousness_qs))
-E_score = np.mean(create_questions(extraversion_qs))
-A_score = np.mean(create_questions(agreeableness_qs))
-N_score = np.mean(create_questions(neuroticism_qs))
+openness_responses = create_questions(openness_qs)
+conscientiousness_responses = create_questions(conscientiousness_qs)
+extraversion_responses = create_questions(extraversion_qs)
+agreeableness_responses = create_questions(agreeableness_qs)
+neuroticism_responses = create_questions(neuroticism_qs)
 
 # Aptitude Tests
 st.header("Aptitude Tests")
@@ -139,29 +139,32 @@ def calculate_aptitude_scores(numerical_responses, spatial_responses, perceptual
     Verbal_Reasoning = sum([1 for verbal in verbal_responses if verbal == 'Option A'])  # Example scoring logic
     return Numerical_Aptitude, Spatial_Aptitude, Perceptual_Aptitude, Abstract_Reasoning, Verbal_Reasoning
 
-# Calculate aptitude scores on user input
-if st.button('Calculate Aptitude Scores'):
-    scores = calculate_aptitude_scores(numerical_responses, spatial_responses, perceptual_responses, abstract_responses, verbal_responses)
-    st.write("Aptitude Scores: Numerical Aptitude={}, Spatial Aptitude={}, Perceptual Aptitude={}, Abstract Reasoning={}, Verbal Reasoning={}".format(*scores))
-    st.session_state['scores'] = scores
+# Calculate all scores on user input
+if st.button('Calculate Scores and Predict Career'):
+    # Calculate personality scores
+    O_score = np.mean(openness_responses)
+    C_score = np.mean(conscientiousness_responses)
+    E_score = np.mean(extraversion_responses)
+    A_score = np.mean(agreeableness_responses)
+    N_score = np.mean(neuroticism_responses)
 
-# Combine all scores and use them for prediction
-if st.button('Predict Career'):
-    if 'scores' in st.session_state:
-        scores = st.session_state['scores']
-        personality_scores = np.array([O_score, C_score, E_score, A_score, N_score])
-        aptitude_scores = np.array(scores)
-        combined_scores = np.concatenate((personality_scores, aptitude_scores)).reshape(1, -1)
+    # Calculate aptitude scores
+    aptitude_scores = calculate_aptitude_scores(numerical_responses, spatial_responses, perceptual_responses, abstract_responses, verbal_responses)
+    st.write("Aptitude Scores: Numerical Aptitude={}, Spatial Aptitude={}, Perceptual Aptitude={}, Abstract Reasoning={}, Verbal Reasoning={}".format(*aptitude_scores))
 
-        # Load the trained model and scaler
-        clf = joblib.load('career_prediction_model.pkl')  # Ensure the model file is in the same directory
-        scaler = joblib.load('scaler.pkl')  # Ensure the scaler file is in the same directory
+    st.write("Personality Scores: O_score={}, C_score={}, E_score={}, A_score={}, N_score={}".format(O_score, C_score, E_score, A_score, N_score))
 
-        # Scale the combined scores
-        combined_scores_scaled = scaler.transform(combined_scores)
+    # Combine all scores
+    personality_scores = np.array([O_score, C_score, E_score, A_score, N_score])
+    combined_scores = np.concatenate((personality_scores, aptitude_scores)).reshape(1, -1)
 
-        # Make prediction
-        predicted_career = clf.predict(combined_scores_scaled)
-        st.write(f"Predicted Career: {predicted_career[0]}")
-    else:
-        st.write("Please calculate aptitude scores first.")
+    # Load the trained model and scaler
+    clf = joblib.load('career_prediction_model.pkl')  # Ensure the model file is in the same directory
+    scaler = joblib.load('scaler.pkl')  # Ensure the scaler file is in the same directory
+
+    # Scale the combined scores
+    combined_scores_scaled = scaler.transform(combined_scores)
+
+    # Make prediction
+    predicted_career = clf.predict(combined_scores_scaled)
+    st.write(f"Predicted Career: {predicted_career[0]}")
