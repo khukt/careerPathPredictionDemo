@@ -1,6 +1,6 @@
 import streamlit as st
 import numpy as np
-import pandas as pd
+import joblib
 
 # Explanation of the scale
 scale_explanation = """
@@ -9,7 +9,7 @@ Please use the following scale to respond to each statement:
 2 - Disagree
 3 - Neutral
 4 - Agree
-5 - Agree Strongly
+5 - Strongly Agree
 """
 
 # Title of the app
@@ -89,10 +89,8 @@ spatial_qs = [
     "Choose the correct rotated version of a given shape.",
     "Complete a pattern by choosing the correct shape that fits into the sequence."
 ]
-spatial_images = ["net.png", "rotated_shapes.png", "pattern.png"]
 spatial_responses = []
-for i, question in enumerate(spatial_qs):
-    st.image(spatial_images[i])
+for question in spatial_qs:
     response = st.selectbox(question, ['Option A', 'Option B', 'Option C', 'Option D'])
     spatial_responses.append(response)
 
@@ -103,10 +101,8 @@ perceptual_qs = [
     "Identify the missing piece in a puzzle based on a pattern.",
     "Recognize a hidden shape within a complex design."
 ]
-perceptual_images = ["differences.png", "missing_piece.png", "hidden_shape.png"]
 perceptual_responses = []
-for i, question in enumerate(perceptual_qs):
-    st.image(perceptual_images[i])
+for question in perceptual_qs:
     response = st.selectbox(question, ['Option A', 'Option B', 'Option C', 'Option D'])
     perceptual_responses.append(response)
 
@@ -117,10 +113,8 @@ abstract_qs = [
     "Solve analogies: A is to B as C is to __.",
     "Identify the odd one out in a series of figures based on a rule."
 ]
-abstract_images = ["sequence.png", "analogy.png", "odd_one_out.png"]
 abstract_responses = []
-for i, question in enumerate(abstract_qs):
-    st.image(abstract_images[i])
+for question in abstract_qs:
     response = st.selectbox(question, ['Option A', 'Option B', 'Option C', 'Option D'])
     abstract_responses.append(response)
 
@@ -131,14 +125,8 @@ verbal_qs = [
     "Determine the meaning of a word based on context.",
     "Choose the correct conclusion based on a given set of statements."
 ]
-verbal_passages = [
-    "Passage content goes here.",
-    "Contextual sentence goes here.",
-    "Statements go here."
-]
 verbal_responses = []
-for i, question in enumerate(verbal_qs):
-    st.text_area("Passage:", verbal_passages[i], height=100, max_chars=200)
+for question in verbal_qs:
     response = st.selectbox(question, ['Option A', 'Option B', 'Option C', 'Option D'])
     verbal_responses.append(response)
 
