@@ -130,7 +130,7 @@ for question in verbal_qs:
     response = st.selectbox(question, ['Option A', 'Option B', 'Option C', 'Option D'])
     verbal_responses.append(response)
 
-# Example function to calculate aptitude scores
+# Function to calculate aptitude scores
 def calculate_aptitude_scores(numerical_responses, spatial_responses, perceptual_responses, abstract_responses, verbal_responses):
     Numerical_Aptitude = sum([int(num) if num.isdigit() else 0 for num in numerical_responses])
     Spatial_Aptitude = sum([1 for spatial in spatial_responses if spatial == 'Option A'])  # Example scoring logic
@@ -139,24 +139,29 @@ def calculate_aptitude_scores(numerical_responses, spatial_responses, perceptual
     Verbal_Reasoning = sum([1 for verbal in verbal_responses if verbal == 'Option A'])  # Example scoring logic
     return Numerical_Aptitude, Spatial_Aptitude, Perceptual_Aptitude, Abstract_Reasoning, Verbal_Reasoning
 
-# Button to calculate and display scores
+# Calculate aptitude scores on user input
 if st.button('Calculate Aptitude Scores'):
     scores = calculate_aptitude_scores(numerical_responses, spatial_responses, perceptual_responses, abstract_responses, verbal_responses)
     st.write("Aptitude Scores: Numerical Aptitude={}, Spatial Aptitude={}, Perceptual Aptitude={}, Abstract Reasoning={}, Verbal Reasoning={}".format(*scores))
+    st.session_state['scores'] = scores
 
 # Combine all scores and use them for prediction
 if st.button('Predict Career'):
-    personality_scores = np.array([O_score, C_score, E_score, A_score, N_score])
-    aptitude_scores = np.array(scores)
-    combined_scores = np.concatenate((personality_scores, aptitude_scores)).reshape(1, -1)
+    if 'scores' in st.session_state:
+        scores = st.session_state['scores']
+        personality_scores = np.array([O_score, C_score, E_score, A_score, N_score])
+        aptitude_scores = np.array(scores)
+        combined_scores = np.concatenate((personality_scores, aptitude_scores)).reshape(1, -1)
 
-    # Load the trained model and scaler
-    clf = joblib.load('career_prediction_model.pkl')  # Ensure the model file is in the same directory
-    scaler = joblib.load('scaler.pkl')  # Ensure the scaler file is in the same directory
+        # Load the trained model and scaler
+        clf = joblib.load('career_prediction_model.pkl')  # Ensure the model file is in the same directory
+        scaler = joblib.load('scaler.pkl')  # Ensure the scaler file is in the same directory
 
-    # Scale the combined scores
-    combined_scores_scaled = scaler.transform(combined_scores)
+        # Scale the combined scores
+        combined_scores_scaled = scaler.transform(combined_scores)
 
-    # Make prediction
-    predicted_career = clf.predict(combined_scores_scaled)
-    st.write(f"Predicted Career: {predicted_career[0]}")
+        # Make prediction
+        predicted_career = clf.predict(combined_scores_scaled)
+        st.write(f"Predicted Career: {predicted_career[0]}")
+    else:
+        st.write("Please calculate aptitude scores first.")
