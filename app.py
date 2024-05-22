@@ -48,7 +48,7 @@ def recommend_career_paths(occupation, similarity_df, top_n=5):
 
 def plot_skill_gaps(skill_gaps_sorted):
     fig, ax = plt.subplots(figsize=(10, 6))
-    skill_gaps_sorted.plot(kind='barh', ax=ax)
+    skill_gaps_sorted.plot(kind='barh', ax=ax, color='skyblue')
     ax.set_xlabel('Skill Gap')
     ax.set_title('Skill Gaps to Transition to the Recommended Occupation')
     st.pyplot(fig)
@@ -66,7 +66,7 @@ pivot_df, similarity_df = process_data(skills_df, occupation_df)
 
 # Streamlit app
 st.image(logo_image, width=200)
-st.title("Career Path Recommendation System Demo")
+st.title("Career Path Recommendation System")
 
 st.markdown("""
 ### About the Dataset
@@ -80,14 +80,7 @@ The dataset used in this app consists of skills and occupation data sourced from
 This app uses the Cosine Similarity model to calculate the similarity between different occupations based on their skill requirements. This allows us to recommend career paths that require similar skill sets.
 
 ### Disclaimer
-This application is a demo and should be used for informational purposes only. The recommendations provided are based on the available data and are meant to serve as a guide. Users are advised to perform further research and consider additional factors when making career decisions.
-
-### Team Acknowledgement
-This project is the output of the GENI research team. Our team is dedicated to providing insights and tools to help individuals navigate their career paths.
-
-### Instructions
-1. Select your current occupation from the dropdown menu.
-2. Click the "Get Career Path Recommendations" button to view recommended career paths and skill gaps.
+This application is a demo and should be used for informational purposes only. The recommendations provided are based on the available data and are meant to serve as a guide. Users are advised to perform further research and consider additional factors when making career decisions. The current model accuracy is not optimal and may not always provide the most accurate career path recommendations.
 """)
 
 # User input for current occupation
