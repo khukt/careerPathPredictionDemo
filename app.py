@@ -2,9 +2,10 @@ import streamlit as st
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+import matplotlib.pyplot as plt
 
 # Load the logo image
-logo_image = 'geni.png'
+logo_image = 'image.png'
 
 @st.cache
 def load_data():
@@ -44,6 +45,13 @@ def recommend_career_paths(occupation, similarity_df, top_n=5):
         return similar_occupations
     else:
         return None
+
+def plot_skill_gaps(skill_gaps_sorted):
+    fig, ax = plt.subplots(figsize=(10, 6))
+    skill_gaps_sorted.plot(kind='barh', ax=ax)
+    ax.set_xlabel('Skill Gap')
+    ax.set_title('Skill Gaps to Transition to the Recommended Occupation')
+    st.pyplot(fig)
 
 # Load and process data
 skills_df, occupation_df = load_data()
@@ -97,6 +105,9 @@ if st.button("Get Career Path Recommendations"):
         skill_gaps_sorted = skill_gaps.sort_values(by='Skill Gap', ascending=False)
 
         st.write(f"\nSkill gaps to transition from {occupation} to {top_recommended_occupation}:")
-        st.table(skill_gaps_sorted.head(10))
+        st.write(skill_gaps_sorted)
+
+        st.write("Below is a visual representation of the skill gaps:")
+        plot_skill_gaps(skill_gaps_sorted)
     else:
         st.write("Occupation not found in the dataset.")
