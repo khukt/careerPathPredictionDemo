@@ -53,13 +53,20 @@ def plot_skill_gaps(skill_gaps_sorted):
     ax.set_title('Skill Gaps to Transition to the Recommended Occupation')
     st.pyplot(fig)
 
+def plot_skill_improvement(skill, gap):
+    fig, ax = plt.subplots(figsize=(10, 2))
+    ax.barh(skill, gap, color='skyblue')
+    ax.set_xlim(0, 1)
+    ax.set_title(f'Improvement Needed: {skill}')
+    st.pyplot(fig)
+
 # Load and process data
 skills_df, occupation_df = load_data()
 pivot_df, similarity_df = process_data(skills_df, occupation_df)
 
 # Streamlit app
 st.image(logo_image, width=200)
-st.title("Career Path Recommendation System")
+st.title("Career Path Recommendation System Demo")
 
 st.markdown("""
 ### About the Dataset
@@ -91,7 +98,7 @@ if st.button("Get Career Path Recommendations"):
     recommended_paths = recommend_career_paths(occupation, similarity_df, top_n=5)
     
     if recommended_paths is not None:
-        st.write(f"Recommended career paths for {occupation}:")
+        st.subheader(f"Recommended career paths for {occupation}:")
         for idx, (rec_occ, score) in enumerate(recommended_paths.items(), start=1):
             st.write(f"{idx}. {rec_occ} (Similarity Score: {score:.3f})")
 
@@ -104,10 +111,10 @@ if st.button("Get Career Path Recommendations"):
         skill_gaps.columns = ['Skill Gap']
         skill_gaps_sorted = skill_gaps.sort_values(by='Skill Gap', ascending=False)
 
-        st.write(f"\nSkill gaps to transition from {occupation} to {top_recommended_occupation}:")
+        st.subheader(f"\nSkill gaps to transition from {occupation} to {top_recommended_occupation}:")
         st.write(skill_gaps_sorted)
 
-        st.write("Below is a visual representation of the skill gaps:")
+        st.subheader("Visual representation of the skill gaps:")
         plot_skill_gaps(skill_gaps_sorted)
 
         st.markdown("""
@@ -128,6 +135,7 @@ if st.button("Get Career Path Recommendations"):
             st.markdown(f"- **Books**: Look for highly-rated books on {skill} on Amazon or your local library")
             st.markdown(f"- **Workshops**: Attend workshops or webinars related to {skill}")
             st.markdown(f"- **Mentorship**: Find a mentor who excels in {skill} and can provide guidance")
+            plot_skill_improvement(skill, gap.values[0])
             st.markdown(f"---")
 
     else:
