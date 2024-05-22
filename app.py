@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Load the logo image
-logo_image = 'image.png'
+logo_image = 'geni.png'
 
 @st.cache
 def load_data():
