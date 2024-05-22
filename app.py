@@ -3,14 +3,6 @@ import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
-# Ensure the required library is installed
-try:
-    import openpyxl
-except ImportError:
-    st.write("Installing openpyxl...")
-    import os
-    os.system('pip install openpyxl')
-
 @st.cache
 def load_data():
     skills_df = pd.read_excel('Skills.xlsx', engine='openpyxl')
