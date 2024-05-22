@@ -111,14 +111,23 @@ if st.button("Get Career Path Recommendations"):
         plot_skill_gaps(skill_gaps_sorted)
 
         st.markdown("""
-        ### What You Can Do to Bridge the Skill Gaps:
-        Here are some actions you can take to improve the skills needed for your career transition:
+        ### Skill Improvement Plan
+        Based on the identified skill gaps, here is a plan to help you improve the necessary skills for your desired career transition:
         """)
 
         for skill, gap in skill_gaps_sorted.iterrows():
             st.markdown(f"**{skill}**: {gap.values[0]:.4f}")
-            st.markdown(f"- **Description**: Improve your ability in {skill}. Consider taking online courses, attending workshops, or seeking mentorship in this area.")
-            st.markdown(f"- **Recommended Resources**: Platforms like Coursera, Udemy, LinkedIn Learning, or local community colleges often offer courses to help you improve {skill}.")
+            st.markdown(f"**Description**: To excel in {skill}, you need to improve your understanding and application of this skill.")
+            st.markdown(f"**Steps to Improve**:")
+            st.markdown(f"1. **Self-Assessment**: Evaluate your current proficiency level in {skill}. Identify specific areas where you need improvement.")
+            st.markdown(f"2. **Learning Resources**: Utilize online courses, tutorials, and books to learn and enhance your {skill} skills.")
+            st.markdown(f"3. **Practical Application**: Apply what you learn through practice, projects, or real-world scenarios.")
+            st.markdown(f"4. **Feedback**: Seek feedback from mentors, peers, or professionals to understand your progress and areas for further improvement.")
+            st.markdown(f"**Recommended Resources**:")
+            st.markdown(f"- **Online Courses**: Coursera, Udemy, LinkedIn Learning, edX")
+            st.markdown(f"- **Books**: Look for highly-rated books on {skill} on Amazon or your local library")
+            st.markdown(f"- **Workshops**: Attend workshops or webinars related to {skill}")
+            st.markdown(f"- **Mentorship**: Find a mentor who excels in {skill} and can provide guidance")
             st.markdown(f"---")
 
     else:
