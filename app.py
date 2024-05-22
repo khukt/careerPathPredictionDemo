@@ -3,6 +3,9 @@ import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
+# Load the logo image
+logo_image = 'geni.png'
+
 @st.cache
 def load_data():
     skills_df = pd.read_excel('Skills.xlsx', engine='openpyxl')
@@ -47,7 +50,20 @@ skills_df, occupation_df = load_data()
 pivot_df, similarity_df = process_data(skills_df, occupation_df)
 
 # Streamlit app
+st.image(logo_image, width=200)
 st.title("Career Path Recommendation System")
+
+st.markdown("""
+### About the Dataset
+The dataset used in this app consists of skills and occupation data sourced from reliable databases. Each occupation is associated with various skills, with importance and level values provided for each skill. 
+
+### Disclaimer
+This application is a demo and should be used for informational purposes only. The recommendations provided are based on the available data and are meant to serve as a guide. Users are advised to perform further research and consider additional factors when making career decisions.
+
+### Instructions
+1. Select your current occupation from the dropdown menu.
+2. Click the "Get Career Path Recommendations" button to view recommended career paths and skill gaps.
+""")
 
 # User input for current occupation
 occupation = st.selectbox("Select your current occupation:", similarity_df.index)
