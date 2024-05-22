@@ -55,10 +55,20 @@ st.title("Career Path Recommendation System")
 
 st.markdown("""
 ### About the Dataset
-The dataset used in this app consists of skills and occupation data sourced from reliable databases. Each occupation is associated with various skills, with importance and level values provided for each skill. 
+The dataset used in this app consists of skills and occupation data sourced from reliable databases, including O*NET. Each occupation is associated with various skills, with importance and level values provided for each skill. 
+
+### References
+1. O*NET Database: [O*NET Online](https://www.onetonline.org/)
+2. U.S. Department of Labor: [U.S. Department of Labor](https://www.dol.gov/)
+
+### Model Used
+This app uses the Cosine Similarity model to calculate the similarity between different occupations based on their skill requirements. This allows us to recommend career paths that require similar skill sets.
 
 ### Disclaimer
 This application is a demo and should be used for informational purposes only. The recommendations provided are based on the available data and are meant to serve as a guide. Users are advised to perform further research and consider additional factors when making career decisions.
+
+### Team Acknowledgement
+This project is the output of the GENI research team. Our team is dedicated to providing insights and tools to help individuals navigate their career paths.
 
 ### Instructions
 1. Select your current occupation from the dropdown menu.
