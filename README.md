@@ -1,6 +1,6 @@
 # Career Path Recommendation System
 
-![GENI Technology](image.png)
+![GENI Technology](geni.png)
 
 ## Overview
 The Career Path Recommendation System is a demo application that helps users explore potential career paths based on their current occupation and skill set. The app uses a dataset of skills and occupations to provide recommendations and highlight skill gaps for the transition to a new career.
