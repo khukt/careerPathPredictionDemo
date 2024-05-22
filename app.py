@@ -109,5 +109,17 @@ if st.button("Get Career Path Recommendations"):
 
         st.write("Below is a visual representation of the skill gaps:")
         plot_skill_gaps(skill_gaps_sorted)
+
+        st.markdown("""
+        ### What You Can Do to Bridge the Skill Gaps:
+        Here are some actions you can take to improve the skills needed for your career transition:
+        """)
+
+        for skill, gap in skill_gaps_sorted.iterrows():
+            st.markdown(f"**{skill}**: {gap.values[0]:.4f}")
+            st.markdown(f"- **Description**: Improve your ability in {skill}. Consider taking online courses, attending workshops, or seeking mentorship in this area.")
+            st.markdown(f"- **Recommended Resources**: Platforms like Coursera, Udemy, LinkedIn Learning, or local community colleges often offer courses to help you improve {skill}.")
+            st.markdown(f"---")
+
     else:
         st.write("Occupation not found in the dataset.")
